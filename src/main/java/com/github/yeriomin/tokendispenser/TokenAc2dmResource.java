@@ -15,9 +15,9 @@ import static spark.Spark.halt;
 
 public class TokenAc2dmResource {
 
-    public String handle(Request request, Response response) {
-        String email = request.params("email");
-        String password = Server.passwords.get(email);
+    public String handle() {
+        String email = "appanalysiscmu01@gmail.com";
+        String password = Token.passwords.get(email);
         if (null == password || password.isEmpty()) {
             halt(404, "No password for this email");
         }
@@ -30,11 +30,11 @@ public class TokenAc2dmResource {
                 code = e.getCode();
             }
             message = e.getMessage();
-            Server.LOG.warn(e.getClass().getName() + ": " + message);
+            Token.LOG.warn(e.getClass().getName() + ": " + message);
             halt(code, message);
         } catch (IOException e) {
             message = e.getMessage();
-            Server.LOG.error(e.getClass().getName() + ": " + message);
+            Token.LOG.error(e.getClass().getName() + ": " + message);
             halt(code, message);
         }
         return "";

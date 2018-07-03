@@ -20,22 +20,22 @@ class PasswordsDbMongo implements PasswordsDbInterface {
     private DBCollection collection;
 
     public PasswordsDbMongo(Properties config) {
-        String host = config.getProperty(Server.PROPERTY_MONGODB_HOST, "");
-        int port = Integer.parseInt(config.getProperty(Server.PROPERTY_MONGODB_PORT, "0"));
-        String username = config.getProperty(Server.PROPERTY_MONGODB_USERNAME, "");
-        String password = config.getProperty(Server.PROPERTY_MONGODB_PASSWORD, "");
-        String databaseNameStorage = config.getProperty(Server.PROPERTY_MONGODB_DB, "");
-        String collectionName = config.getProperty(Server.PROPERTY_MONGODB_COLLECTION, "");
+        String host = config.getProperty(Token.PROPERTY_MONGODB_HOST, "");
+        int port = Integer.parseInt(config.getProperty(Token.PROPERTY_MONGODB_PORT, "0"));
+        String username = config.getProperty(Token.PROPERTY_MONGODB_USERNAME, "");
+        String password = config.getProperty(Token.PROPERTY_MONGODB_PASSWORD, "");
+        String databaseNameStorage = config.getProperty(Token.PROPERTY_MONGODB_DB, "");
+        String collectionName = config.getProperty(Token.PROPERTY_MONGODB_COLLECTION, "");
         Mongo mongo;
         try {
             mongo = new Mongo(host, port);
         } catch (UnknownHostException e) {
-            Server.LOG.error("UnknownHostException: " + e.getMessage());
+            Token.LOG.error("UnknownHostException: " + e.getMessage());
             return;
         }
         DB mongoDb = mongo.getDB(databaseNameStorage);
         if (!mongoDb.authenticate(username, password.toCharArray())) {
-            Server.LOG.error("Failed to authenticate against db: " + databaseNameStorage);
+            Token.LOG.error("Failed to authenticate against db: " + databaseNameStorage);
             return;
         }
         collection = mongoDb.getCollection(collectionName);

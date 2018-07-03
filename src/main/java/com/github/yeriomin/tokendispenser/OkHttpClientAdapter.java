@@ -113,7 +113,8 @@ class OkHttpClientAdapter extends HttpClientAdapter {
         Request request = requestBuilder
             .headers(Headers.of(headers))
             .build();
-        Server.LOG.info("Requesting: " + request.url().toString());
+        // System.out.println(request);
+        Token.LOG.info("Requesting: " + request.url().toString());
 
         Response response = client.newCall(request).execute();
 
@@ -128,7 +129,7 @@ class OkHttpClientAdapter extends HttpClientAdapter {
             }
             throw e;
         } else if (code >= 500) {
-            throw new GooglePlayException("Server error", code);
+            throw new GooglePlayException("Token error", code);
         } else if (code >= 400) {
             throw new GooglePlayException("Malformed request", code);
         }

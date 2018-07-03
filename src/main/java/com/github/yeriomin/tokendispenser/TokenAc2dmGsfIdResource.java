@@ -16,9 +16,9 @@ import static spark.Spark.halt;
 public class TokenAc2dmGsfIdResource extends TokenAc2dmResource {
 
     @Override
-    public String handle(Request request, Response response) {
-        String email = Server.passwords.getRandomEmail();
-        String password = Server.passwords.get(email);
+    public String handle() {
+        String email = Token.passwords.getRandomEmail();
+        String password = Token.passwords.get(email);
         int code = 500;
         String message;
         try {
@@ -27,15 +27,16 @@ public class TokenAc2dmGsfIdResource extends TokenAc2dmResource {
             String gsfId = getApi().generateGsfId(email, ac2dmToken);
             return token + " " + gsfId;
         } catch (GooglePlayException e) {
+            e.printStackTrace();
             if (e.getCode() >= 400) {
                 code = e.getCode();
             }
             message = e.getMessage();
-            Server.LOG.warn(e.getClass().getName() + ": " + message);
+            Token.LOG.warn(e.getClass().getName() + ": " + message);
             halt(code, message);
         } catch (IOException e) {
             message = e.getMessage();
-            Server.LOG.error(e.getClass().getName() + ": " + message);
+            Token.LOG.error(e.getClass().getName() + ": " + message);
             halt(code, message);
         }
         return "";

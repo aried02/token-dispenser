@@ -6,6 +6,6 @@ import spark.Response;
 public class EmailResource {
 
     public String handle(Request request, Response response) {
-        return Server.passwords.getRandomEmail();
+        return Token.passwords.getRandomEmail();
     }
 }
